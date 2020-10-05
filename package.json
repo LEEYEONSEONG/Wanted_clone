@@ -12,14 +12,18 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-copy-to-clipboard": "^5.0.2",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
+    "react-kakao-login": "^1.2.3",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-slick": "^0.27.11",
     "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
     "styled-components": "^5.2.0",
-    "styled-reset": "^4.2.3"
+    "styled-reset": "^4.2.3",
+    "universal-cookie": "^4.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

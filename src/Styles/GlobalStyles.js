@@ -40,4 +40,8 @@ export const GlobalStyles = createGlobalStyle`
 export const theme = {
   primaryColor: '#268bf6',
   borderColor: '#e5e5e5',
+  navChangePoint: '850px',
+  navMiniChangePoint: '675px',
+  searchRecommendChangePoint: '770px',
+  searchRecruitChangePoint: '1000px',
 };

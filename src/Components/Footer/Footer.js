@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 export default function Footer() {
   return (
@@ -106,13 +106,13 @@ const CountrySelector = styled.select`
   outline: none;
 `;
 
-const FOOTER_INFO = ["이용약관", "개인정보 처리방침", "고객센터"];
+const FOOTER_INFO = ['이용약관', '개인정보 처리방침', '고객센터'];
 
 const COUNTRY_WRAPPER = [
-  "한국(한국어)",
-  "日本 (日本語)",
-  "台灣 (繁體中文)",
-  "Worldwide (English)",
-  "Hong Kong (English)",
-  "Singapore (English)",
+  '한국(한국어)',
+  '日本 (日本語)',
+  '台灣 (繁體中文)',
+  'Worldwide (English)',
+  'Hong Kong (English)',
+  'Singapore (English)',
 ];

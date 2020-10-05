@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import MainSlide from './Components/MainSlide';
 import FilterContainer from './Components/FilterContainer';
 import BookMark from './Components/BookMark';
@@ -6,23 +6,27 @@ import ActiveRecruitment from './Components/ActiveRecruitment';
 import RecruitCompanyLists from './Components/RecruitCompanyLists';
 import styled from 'styled-components';
 import Footer from '../../Components/Footer/Footer';
+import Nav from '../../Components/Nav/Nav';
 
 function CompanyLists() {
-
-  const [filterValue , setFilterValue] = useState("date");
+  const [filterValue, setFilterValue] = useState('date');
 
   const handleChange = (e) => {
-    setFilterValue(e.target.value)
-  }
-    console.log(filterValue);
+    setFilterValue(e.target.value);
+  };
+  console.log(filterValue);
   return (
     <>
+      <Nav />
       <MainSlide />
       <Container>
         <FilterContainer handleChange={handleChange} />
         <BookMark />
         <ActiveRecruitment />
-        <RecruitCompanyLists filterValue={filterValue} handleChange={handleChange}/>
+        <RecruitCompanyLists
+          filterValue={filterValue}
+          handleChange={handleChange}
+        />
       </Container>
       <Footer />
     </>
