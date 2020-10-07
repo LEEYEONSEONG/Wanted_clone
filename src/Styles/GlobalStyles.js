@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import { reset } from 'styled-reset';
+import { createGlobalStyle } from "styled-components";
+import { reset } from "styled-reset";
 export const GlobalStyles = createGlobalStyle`
   ${reset}
   * {
@@ -36,7 +36,8 @@ export const GlobalStyles = createGlobalStyle`
     font-family: --apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 `;
+
 export const theme = {
-  primaryColor: '#268BF6',
-  borderColor: '#E5E5E5',
+  primaryColor: "#268bf6",
+  borderColor: "#e5e5e5",
 };
