@@ -1,33 +1,24 @@
-import React, { Component } from "react";
+import React from 'react';
+import MainSlide from './Components/MainSlide';
+import FilterContainer from './Components/FilterContainer';
+import styled from 'styled-components';
 
-export default class Companylists extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-
-    this.handleEvent = this.handleEvent.bind(this);
-  }
-
-  componentDidMount() {}
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.name !== this.state.name) {
-      this.handler();
-    }
-  }
-
-  componentWillUnmount() {}
-
-  // Prototype methods, Bind in Constructor (ES2015)
-  handleEvent() {}
-
-  // Class Properties (Stage 3 Proposal)
-  handler = () => {
-    this.setState();
-  };
-
-  render() {
-    return <></>;
-  }
+function CompanyLists() {
+  return (
+    <>
+      <MainSlide />
+      <Container>
+        <FilterContainer />
+      </Container>
+    </>
+  );
 }
+
+export default CompanyLists;
+
+const Container = styled.div`
+  width: 1000px;
+  height: 800px;
+  margin: 0px auto;
+  padding: 20px 0px 80px;
+`;
