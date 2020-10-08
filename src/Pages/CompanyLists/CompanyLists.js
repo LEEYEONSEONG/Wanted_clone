@@ -1,6 +1,8 @@
 import React from 'react';
 import MainSlide from './Components/MainSlide';
 import FilterContainer from './Components/FilterContainer';
+import BookMark from './Components/BookMark';
+import ActiveRecruitment from './Components/ActiveRecruitment';
 import styled from 'styled-components';
 
 function CompanyLists() {
@@ -9,6 +11,8 @@ function CompanyLists() {
       <MainSlide />
       <Container>
         <FilterContainer />
+        <BookMark />
+        <ActiveRecruitment />
       </Container>
     </>
   );
