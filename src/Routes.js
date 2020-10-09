@@ -16,15 +16,14 @@ class Routes extends React.Component {
       <Router>
         <Nav />
         <Switch>
-          <Route exact path="/" component={CompanyLists} />
-          <Route exact path="/Detail" component={Detail} />
-          <Route exact path="/Recommendation" component={Recommendation} />
-          <Route exact path="/Resume" component={Resume} />
-          <Route exact path="/Salary" component={Salary} />
-          <Route exact path="/Profile" component={Profile} />
-          <Route exact path="/Search" component={Search} />
+          <Route exact path='/' component={CompanyLists} />
+          <Route exact path='/Detail' component={Detail} />
+          <Route exact path='/Recommendation' component={Recommendation} />
+          <Route exact path='/Resume' component={Resume} />
+          <Route exact path='/Salary' component={Salary} />
+          <Route exact path='/Profile' component={Profile} />
+          <Route exact path='/Search' component={Search} />
         </Switch>
-        <Footer />
       </Router>
     );
   }
