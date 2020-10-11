@@ -5,7 +5,8 @@ import Area from './Area';
 import Career from './Career';
 import SortFilter from './SortFilter';
 
-function FilterContainer() {
+function FilterContainer({handleChange}) {
+
   return (
     <Container>
       <SmallContainer>
@@ -13,7 +14,7 @@ function FilterContainer() {
         <Area />
         <Career />
       </SmallContainer>
-      <SortFilter />
+      <SortFilter handleChange={handleChange} />
     </Container>
   );
 }

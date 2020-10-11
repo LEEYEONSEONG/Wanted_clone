@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const moveSlideLength = 420;
+const moveSlideLength = 400;
 
 function MainSlide() {
   const [jobCategoryData, setjobCategoryData] = useState([]);
   const [x_axis, setX_axis] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:3000/data/CompanyLists/jobCategoryData.json')
+    fetch('http://10.58.4.18:8000/recruit/')
       .then((response) => response.json())
-      .then((jobCategoryData) =>
-        setjobCategoryData(jobCategoryData.jobCategoryData)
-      );
+      .then((response) => setjobCategoryData(response.data.menu_list));
   }, []);
 
   return (
@@ -29,9 +27,9 @@ function MainSlide() {
           {jobCategoryData.map((el) => (
             <List key={el.id}>
               <SlideItem left={x_axis}>
-                <Img src={el.img} alt={el.alt} />
+                <Img src={el.image} alt={el.alt} />
                 <OpacityBox />
-                <CategoryText>{el.category}</CategoryText>
+                <CategoryText>{el.name}</CategoryText>
               </SlideItem>
             </List>
           ))}
@@ -78,7 +76,7 @@ const List = styled.li`
 const Slide = styled.div`
   display: flex;
   align-items: center;
-  width: 1000px;
+  width: 1050px;
   height: 120px;
   overflow: hidden;
 `;

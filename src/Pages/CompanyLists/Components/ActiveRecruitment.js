@@ -72,7 +72,7 @@ const CompanyLists = styled.div`
 
 const CompanyItem = styled.div`
   position: relative;
-  width: 190px;
+  width: 196px;
   height: 271px;
   border-radius: 5px;
   border: 1px solid #ececec;
