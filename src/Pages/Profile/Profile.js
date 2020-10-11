@@ -8,31 +8,25 @@ export default function Profile() {
   const [currentPage, setCurrentPage] = useState(0);
 
   const [likeData, setLikeData] = useState([]);
-  const [markData, setMarkData] = useState([]);
-  const [apllyData, setApllyData] = useState([]);
+  // const [markData, setMarkData] = useState([]);
 
   useEffect(() => {
-    fetch('/Data/Profile/Like_list.json')
+    const testToken = localStorage.getItem('userToken');
+    fetch('http://10.58.2.230:8000/account/like', {
+      headers: {
+        Authorization: testToken,
+      },
+    })
       .then((response) => response.json())
-      .then((res) => setLikeData(res.productList));
+      .then((res) => setLikeData(res.recruit_list));
   }, []);
 
-  useEffect(() => {
-    fetch('/Data/Profile/BookMark_list.json')
-      .then((response) => response.json())
-      .then((res) => setMarkData(res.productList));
-  }, []);
-
-  useEffect(() => {
-    fetch('/Data/Profile/Apply_list.json')
-      .then((response) => response.json())
-      .then((res) => setApllyData(res.productList));
-  }, []);
+  console.log(likeData);
 
   const content = {
-    0: <ApplySatus apllyData={apllyData} />,
+    0: <ApplySatus />,
     1: <LikeStaus likeData={likeData} />,
-    2: <BookMarkStatus markData={markData} />,
+    2: <BookMarkStatus likeData={likeData} />,
   };
 
   return (

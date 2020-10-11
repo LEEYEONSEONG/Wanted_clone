@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import DetailTemplate from "./Components/DetailTemplate";
-import DetailContents from "./Components/DetailContents";
-import ApplyTemplate from "./Components/ApplyTemplate";
-import SubmitTemaplete from "./Components/SubmitTemaplete";
-import styled from "styled-components";
-import FILE_LIST from "./Components/File_list";
+import React, { useState, useEffect } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import DetailTemplate from './Components/DetailTemplate';
+import DetailContents from './Components/DetailContents';
+import ApplyTemplate from './Components/ApplyTemplate';
+import SubmitTemaplete from './Components/SubmitTemaplete';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import MapCompany from './Components/MapCompany';
 
 function Detail() {
+  const [recruitList, setRecruitList] = useState([]);
   const [goToApply, setGoToApply] = useState(false);
 
   const [likeToggle, setLikeToggle] = useState(true);
-  const [shareToggle, setShareToggle] = useState(true);
   const [likeNumber, setLikeNumber] = useState(1);
+  const [followToggle, setFollowToggle] = useState(false);
+  const [shareToggle, setShareToggle] = useState(true);
 
   const [modal, setModal] = useState(false);
   const [shareModal, setShareModal] = useState(false);
@@ -22,25 +25,28 @@ function Detail() {
   const [nameValid, setNameValid] = useState(false);
 
   const [detailList, setDetailList] = useState({});
+  const [submitList, setSubmitList] = useState([]);
 
   const [hideContent, setHideContent] = useState(false);
 
   const url = window.location.href;
 
+  const [likeuser, setLikeUser] = useState(false);
+
   const [input, setInputs] = useState({
-    nameValue: "",
-    emailValue: "",
-    phoneValue: "",
-    recommendValue: "",
+    nameValue: '',
+    emailValue: '',
+    phoneValue: '',
+    recommendValue: '',
   });
 
-  const [fileList, setFileList] = useState(FILE_LIST);
+  const { id } = useParams();
 
   useEffect(() => {
-    fetch("http://10.58.4.18:8000/recruit/detail/1")
+    fetch(`http://10.58.3.132:8000/recruit/detail/${id}`)
       .then((response) => response.json())
       .then((res) => setDetailList(res.detail_list));
-  }, []);
+  }, [id]);
 
   const handleValue = (e) => {
     const { name, value } = e.target;
@@ -50,26 +56,57 @@ function Detail() {
     });
   };
 
+  useEffect(() => {
+    const testToken = localStorage.getItem('userToken');
+    fetch('http://10.58.2.230:8000/account/like', {
+      headers: {
+        Authorization: testToken,
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.recruit_list);
+        res.recruit_list.filter((item) => {
+          item.id === detailList.id && setLikeUser(!likeuser);
+        });
+      });
+  }, [detailList]);
+
   const onLikeToggle = () => {
-    setLikeToggle(!likeToggle);
-    setLikeNumber(likeToggle ? likeNumber + 1 : likeNumber - 1);
+    const testToken = localStorage.getItem('userToken');
+    setLikeUser(!likeuser);
+    fetch('http://10.58.2.230:8000/account/like', {
+      method: 'POST',
+      headers: {
+        Authorization: testToken,
+      },
+      body: JSON.stringify({
+        recruit_id: detailList.id,
+      }),
+    }).then((res) => res.json());
   };
+  console.log(likeuser, '22222222');
 
   const handleMove = () => {
     setGoToApply(!goToApply);
     setHideContent(!hideContent);
   };
 
-  const nameValidHandler = () => {
+  const handleValid = () => {
     if (
-      !input.nameValue.length === 0 &&
-      !input.emailValue.length === 0 &&
-      !input.phoneValue.length === 0
+      !input.nameValue.length &&
+      !input.emailValue.length &&
+      !input.phoneValue.length
     ) {
       setNameValid(!nameValid);
     }
   };
-  console.log(nameValid);
+
+  useEffect(() => {
+    const list = JSON.parse(localStorage.getItem('submitList'));
+    setSubmitList(list);
+  }, []);
+
   return (
     <Container>
       <Modal modalOn={modal}>
@@ -102,15 +139,20 @@ function Detail() {
                 </button>
               </CopyToClipboard>
             </div>
-            {shareToggle ? "" : <p>복사하였습니다.</p>}
+            {shareToggle ? '' : <p>복사하였습니다.</p>}
           </ShareFooter>
         </ShareModalBox>
       </Modal>
       <Wrapper>
         <DetailTemplate>
-          <DetailContents detailList={detailList} />
+          <DetailContents
+            detailList={detailList}
+            setFollowToggle={setFollowToggle}
+            followToggle={followToggle}
+          />
         </DetailTemplate>
         <ApplyTemplate
+          likeuser={likeuser}
           goToApply={goToApply}
           likeToggle={likeToggle}
           likeNumber={likeNumber}
@@ -120,21 +162,24 @@ function Detail() {
           handleModal={() => setModal(!modal)}
           handleShareModal={() => setShareModal(!shareModal)}
           onLikeToggle={onLikeToggle}
-        ></ApplyTemplate>
+          recruitList={recruitList}
+        />
         <SubmitTemaplete
+          setSubmitList={setSubmitList}
+          detailList={detailList}
           goToApply={goToApply}
           input={input}
           checkSubmit={checkSubmit}
-          fileList={fileList}
           nameValid={nameValid}
           hideContent={hideContent}
           setCheckSubmit={setCheckSubmit}
           handleMove={handleMove}
           handleValue={handleValue}
-          setFileList={setFileList}
-          nameValidHandler={nameValidHandler}
-        ></SubmitTemaplete>
+          handleValid={handleValid}
+          // nameValidHandler={nameValidHandler}
+        />
       </Wrapper>
+      <MapCompany detailList={detailList}></MapCompany>
     </Container>
   );
 }
@@ -144,6 +189,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  flex-direction: column;
+  max-width: 1060px;
+  margin: 0 auto;
+  margin-top: 40px;
 `;
 
 const Wrapper = styled.div`
@@ -152,6 +201,7 @@ const Wrapper = styled.div`
   position: relative;
 
   @media (max-width: 992px) {
+    width: 100%;
     display: flex;
     flex-direction: column;
   }
@@ -159,12 +209,15 @@ const Wrapper = styled.div`
 
 const Modal = styled.div`
   display: ${({ modalOn, shareModal }) =>
-    modalOn || shareModal ? "flex" : "none"};
+    modalOn || shareModal ? 'flex' : 'none'};
   background-color: ${({ shareModal }) =>
-    shareModal ? "rgba(0,0,0,0.5)" : ""};
+    shareModal ? 'rgba(0,0,0,0.5)' : ''};
   justify-content: center;
   align-items: center;
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -235,11 +288,11 @@ const ShareFooter = styled.div`
   }
   p {
     padding: 10px 0 5px;
-    color: ${({ shareToggle }) => (shareToggle ? "" : "#258bf7")};
+    color: ${({ shareToggle }) => (shareToggle ? '' : '#258bf7')};
     font-size: 14px;
   }
   i {
-    color: ${({ shareToggle }) => (shareToggle ? "" : "#258bf7")};
+    color: ${({ shareToggle }) => (shareToggle ? '' : '#258bf7')};
   }
   input {
     width: calc(100% - 90px);

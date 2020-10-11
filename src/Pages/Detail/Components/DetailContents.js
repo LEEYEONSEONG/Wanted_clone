@@ -1,13 +1,13 @@
-import React from "react";
-import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
-import styled from "styled-components";
+import React from 'react';
+import { GoogleApiWrapper, Map, Marker } from 'google-maps-react';
+import styled from 'styled-components';
 
-function DetailContents({ google, detailList }) {
+function DetailContents({ google, detailList, setFollowToggle, followToggle }) {
   return (
     <>
       {!!Object.keys(detailList).length && (
         <DetailContentsBlock>
-          <DetailContentsImg src="/Images/Detail/Detail.png" />
+          <DetailContentsImg src={detailList.thumbnail} />
           <DetailContentsHead>
             <h2>{detailList.title}</h2>
             <SubText>
@@ -77,8 +77,8 @@ function DetailContents({ google, detailList }) {
               }}
             >
               <Marker
-                title={"LEEYEONSEONG"}
-                name={"CompanyLocation"}
+                title={'LEEYEONSEONG'}
+                name={'CompanyLocation'}
                 position={{
                   lat: detailList.latitude,
                   lng: detailList.longitude,
@@ -94,7 +94,12 @@ function DetailContents({ google, detailList }) {
                 <GrayText>IT, 컨텐츠</GrayText>
               </div>
             </FollowContents>
-            <FollowBtn>팔로우</FollowBtn>
+            <FollowBtn
+              onClick={() => setFollowToggle(!followToggle)}
+              followToggle={followToggle}
+            >
+              팔로우
+            </FollowBtn>
           </FollowContainer>
         </DetailContentsBlock>
       )}
@@ -103,12 +108,11 @@ function DetailContents({ google, detailList }) {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyANOuE6xyd2Lb56Zu5VE8LjBAsZN3hhgGk",
+  apiKey: 'AIzaSyANOuE6xyd2Lb56Zu5VE8LjBAsZN3hhgGk',
 })(DetailContents);
 
 const mapStyle = {
-  width: "700px",
-  height: "350px",
+  height: '350px',
 };
 
 const DetailContentsBlock = styled.div`
@@ -125,6 +129,11 @@ const DetailContentsImg = styled.img`
   width: 100%;
   height: 450px;
   border-radius: 4px;
+  @media (max-width: 992px) {
+    img:nth-child(1) {
+      height: 600px;
+    }
+  }
 `;
 
 const DetailContentsHead = styled.section`
@@ -203,14 +212,14 @@ const GrayText = styled.span`
 
 const FollowBtn = styled.button`
   border-radius: 3px;
-  background: #258bf7;
-  color: #fff;
+  background: ${(props) => (props.followToggle ? 'white' : '#258bf7')};
+  color: ${(props) => (props.followToggle ? 'black' : '#fff')};
   font-size: 14px;
   font-weight: 600;
   text-align: center;
   padding: 10px 30px;
   outline: none;
-  border: none;
+  border: ${(props) => (props.followToggle ? '1px solid black' : 'none')};
   cursor: pointer;
 `;
 

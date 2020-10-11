@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-function BookMarkSatus({ markData }) {
+function BookMarkSatus({ likeData }) {
   return (
     <FullContainer>
       <CompanyContainer>
-        {markData?.map((company, idx) => (
+        {likeData?.map((company, idx) => (
           <CompanyWrapper key={idx}>
-            <CompanyImage src={company.pic}></CompanyImage>
+            <CompanyImage src={company.thumbnail}></CompanyImage>
             <CompanyInfo>
-              <CompanyName>{company.name}</CompanyName>
-              <span>점프컴퍼니</span>
-              <p>경기·한국</p>
+              <CompanyName>{company.company_name}</CompanyName>
+              <span>{company.title}</span>
+              <p>{company.location}·한국</p>
               <Compensation>채용보상금 1,000,000만원</Compensation>
             </CompanyInfo>
           </CompanyWrapper>
@@ -31,11 +31,12 @@ const FullContainer = styled.div`
 
 const CompanyContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 `;
 const CompanyWrapper = styled.div`
-  width: 23%;
+  width: 25%;
+  padding-right: 10px;
+  cursor: pointer;
 `;
 const CompanyImage = styled.img`
   width: 100%;

@@ -1,15 +1,18 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function ApplyTemplate({
+  likeuser,
   handleMove,
   handleModal,
   handleShareModal,
+  shareToggle,
   onLikeToggle,
   goToApply,
   likeToggle,
   likeNumber,
   modal,
+  recruitList,
 }) {
   return (
     <ApplyTemplateBlock
@@ -21,7 +24,7 @@ function ApplyTemplate({
       <ApplyTemplateText>
         채용보상금
         <button onClick={handleShareModal}>
-          <i className="fas fa-share-alt"></i>
+          <i className="fas fa-share-alt" shareToggle={shareToggle}></i>
         </button>
       </ApplyTemplateText>
       <ApplyTemplateHead>
@@ -58,16 +61,15 @@ function ApplyTemplate({
           <img
             alt="like"
             src={
-              likeToggle
-                ? "/Images/Detail/like.png"
-                : "/Images/Detail/likeActive.png"
+              likeuser && likeToggle
+                ? '/Images/Detail/likeActive.png'
+                : '/Images/Detail/like.png'
             }
           />
-          <span>{likeNumber}</span>
+          <span>{likeuser ? recruitList.length + 1 : recruitList.length}</span>
         </ApplyLikeBtn>
-        <LikeUser likeToggle={likeToggle}>
-          {likeToggle ? "" : <i className="fas fa-user-circle"></i>}
-          <img alt="asda" src="/Images/Detail/image.png" />
+        <LikeUser likeToggle={likeToggle} likeuser={likeuser}>
+          {likeuser && likeToggle ? <i className="fas fa-user-circle"></i> : ''}
         </LikeUser>
       </LikeForm>
     </ApplyTemplateBlock>
@@ -85,7 +87,8 @@ const ApplyTemplateBlock = styled.div`
   position: sticky;
   right: 0;
   top: 20px;
-  display: ${(props) => (props.goToApply ? "none" : "block")};
+  display: ${(props) => (props.goToApply ? 'none' : 'block')};
+  margin-top: 20px;
 
   @media (max-width: 992px) {
     width: 100%;
@@ -96,6 +99,7 @@ const ApplyTemplateBlock = styled.div`
     top: unset;
     bottom: 20px;
     display: flex;
+    z-index: 9999;
     justify-content: center;
 
     div:nth-child(1) {
@@ -109,10 +113,9 @@ const ApplyTemplateBlock = styled.div`
     }
     button:nth-child(4) {
       display: block;
+      border: none;
       width: 97%;
-      -webkit-box-shadow: 4px 21px 194px -85px rgba(214, 214, 214, 0.68);
-      -moz-box-shadow: 4px 21px 194px -85px rgba(214, 214, 214, 0.68);
-      box-shadow: 4px 21px 194px -85px rgba(214, 214, 214, 0.68);
+      box-shadow: 0 0 60px white;
     }
 
     div:nth-child(5) {
@@ -148,7 +151,8 @@ const ApplyTemplateText = styled.div`
   color: #333;
   i {
     font-size: 25px;
-    color: #36f;
+    /* color: #36f; */
+    color: ${(props) => (props.shareToggle ? 'lightgray' : '#36f')};
     cursor: pointer;
   }
 `;
@@ -182,7 +186,7 @@ export const ApplyTemplateBtn = styled.button`
   }
   i {
     margin-right: 9px;
-    color: ${(props) => (props.modal ? "00c8a2" : "")};
+    color: ${(props) => (props.modal ? '00c8a2' : '')};
   }
 `;
 
@@ -221,7 +225,8 @@ const LikeUser = styled.div`
     width: 26px;
     height: 27px;
     position: absolute;
-    margin-left: ${({ likeToggle }) => (likeToggle ? "" : "21px")};
+    margin-left: ${({ likeToggle, likeuser }) =>
+      likeToggle && likeuser ? '21px' : ''};
     border-radius: 50%;
   }
 

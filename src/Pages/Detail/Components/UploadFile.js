@@ -1,26 +1,26 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 export default function UploadFile({
-  isChecked,
-  fileList,
-  setFileList,
-  file,
-  id,
-  handleChecked,
+  selectedFile,
+  // setSubmit,
+  // submit,
+  currentColor,
+  handleCheckValue,
+  index,
 }) {
   const day = new Date();
   const today = day.toLocaleDateString();
 
   return (
-    <ResumeForm border={isChecked ? "1px solid #3366FF" : "1px solid #ececec"}>
-      <input
-        type="checkbox"
-        onClick={() => handleChecked(id)}
-        checked={isChecked}
-      />
-      <Resumecontent>
-        <p>{file.fileName}</p>
+    <ResumeForm
+      border={
+        currentColor.includes(index) ? '1px solid #3366FF' : '1px solid #ececec'
+      }
+    >
+      <input type="checkbox" onClick={() => handleCheckValue(index)} />
+      <Resumecontent id="download" target="_blank">
+        <p>{selectedFile}</p>
         <div>
           <span>{today}</span>
           <span>첨부파일</span>

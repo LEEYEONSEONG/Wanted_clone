@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export default function ApplyStatus({ apllyData }) {
+export default function ApplyStatus() {
+  const list = JSON.parse(localStorage.getItem('submitList'));
+
+  const day = new Date();
+  const today = day.toLocaleDateString();
   return (
     <Container>
       <SideBarContainer>
@@ -18,7 +22,8 @@ export default function ApplyStatus({ apllyData }) {
       <Sectioncontents>
         <NavForm>
           <SectionNav color>
-            1<SectionText>전체</SectionText>
+            {list.length}
+            <SectionText>전체</SectionText>
           </SectionNav>
           <SectionNav>
             0<SectionText>채용 완료</SectionText>
@@ -27,14 +32,15 @@ export default function ApplyStatus({ apllyData }) {
             0<SectionText>서류 통과</SectionText>
           </SectionNav>
           <SectionNav>
-            1<SectionText>접수</SectionText>
+            {list.length}
+            <SectionText>접수</SectionText>
           </SectionNav>
           <SectionNav>
             0<SectionText>불합격</SectionText>
           </SectionNav>
         </NavForm>
         <SectionMid>
-          <h4>총 1건</h4>
+          <h4>총 {list.length}건</h4>
           <div>
             <i className="fas fa-search"></i>
             <input type="text" placeholder="회사 / 자원자명 검색"></input>
@@ -50,19 +56,19 @@ export default function ApplyStatus({ apllyData }) {
             보상금 신청<i className="fas fa-question-circle"></i>
           </SectionSpan>
         </SectionForm>
-        {apllyData.map((list, inx) => {
+        {list?.map((list, inx) => {
           return (
             <SectionForm key={inx} backcolor border height size>
-              <SectionSpan width>{list.company}</SectionSpan>
+              <SectionSpan width>{list.companyName}</SectionSpan>
               <SectionSpan>
                 {list.position.length > 7
                   ? `${list.position.substr(0, 8)}...`
                   : list.position}
               </SectionSpan>
-              <SectionSpan>{list.day}</SectionSpan>
-              <SectionSpan>{list.status}</SectionSpan>
-              <SectionSpan>{list.recommend}</SectionSpan>
-              <SectionSpan>{list.reward}</SectionSpan>
+              <SectionSpan>{today}</SectionSpan>
+              <SectionSpan>접수</SectionSpan>
+              <SectionSpan>대기중</SectionSpan>
+              <SectionSpan>신청</SectionSpan>
             </SectionForm>
           );
         })}

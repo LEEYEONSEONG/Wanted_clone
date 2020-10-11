@@ -1,36 +1,73 @@
-import React from "react";
-import styled from "styled-components";
-import { ApplyTemplateBtn } from "./ApplyTemplate";
-import UploadFile from "./UploadFile";
-import INPUT_LIST from "./Input_list";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { ApplyTemplateBtn } from './ApplyTemplate';
+import UploadFile from './UploadFile';
+import INPUT_LIST from './Input_list';
+import { useHistory } from 'react-router-dom';
 
 function SubmitTemaplete({
+  setSubmitList,
+  detailList,
   goToApply,
   input,
   checkSubmit,
-  fileList,
   setCheckSubmit,
   handleMove,
   handleValue,
-  setFileList,
-  SubmitHandler,
-  nameValidHandler,
-  hideContent,
   nameValid,
+  hideContent,
 }) {
-  const handleChecked = (id) => {
-    setFileList({
-      ...fileList,
-      [id]: {
-        id,
-        fileName: fileList[id].fileName,
-        isChecked: !fileList[id].isChecked,
-      },
-    });
+  const [selectedFile, setSelectedFile] = useState([]);
+
+  const [submit, setSubmit] = useState(false);
+
+  const [currentColor, setCurrentColor] = useState([]);
+
+  const inputValid =
+    input.nameValue.length &&
+    input.emailValue.length &&
+    input.phoneValue.length;
+
+  const history = useHistory();
+
+  useEffect(() => {
+    currentColor.length ? setSubmit(true) : setSubmit(false);
+  }, [currentColor]);
+
+  const HandleOnsubmit = () => {
+    if (inputValid && submit) {
+      alert('제출이 완료되었습니다.');
+
+      const list = localStorage.getItem('submitList')
+        ? JSON.parse(localStorage.getItem('submitList'))
+        : '';
+
+      localStorage.setItem(
+        'submitList',
+        JSON.stringify([
+          ...list,
+          {
+            id: 1,
+            companyName: detailList.company_name,
+            position: detailList.title,
+          },
+        ])
+      );
+
+      const newList = JSON.parse(localStorage.getItem('submitList'));
+      setSubmitList(newList);
+      history.push('/');
+    }
   };
 
-  const handleBgColor = () => {
-    return Object.values(fileList).filter((file) => file.isChecked).length > 0;
+  const onFileChange = (e) => {
+    setSelectedFile([...selectedFile, e.target.files[0].name]);
+  };
+
+  const handleCheckValue = (index) => {
+    currentColor.includes(index)
+      ? setCurrentColor(currentColor.filter((color) => color !== index))
+      : setCurrentColor([...currentColor, index]);
   };
 
   return (
@@ -41,6 +78,8 @@ function SubmitTemaplete({
         checkSubmit={checkSubmit}
         setCheckSubmit={setCheckSubmit}
         hideContent={hideContent}
+        nameValid={nameValid}
+        selectedFile={selectedFile}
       >
         <SubmitHead>
           <h2>지원하기</h2>
@@ -52,7 +91,7 @@ function SubmitTemaplete({
           </SubmitText>
           {INPUT_LIST.map((list, index) => {
             return (
-              <SubmitInputForm key={index}>
+              <SubmitInputForm nameValid key={index}>
                 <h2>{list.name}</h2>
                 <input
                   type="text"
@@ -60,6 +99,7 @@ function SubmitTemaplete({
                   value={input[list.value]}
                   name={list.value}
                   autoComplete="off"
+                  className={`${nameValid && 'red'}`}
                 />
               </SubmitInputForm>
             );
@@ -67,26 +107,21 @@ function SubmitTemaplete({
           <SubmitText margin="35px -20px 20px">
             <h2>첨부파일</h2>
           </SubmitText>
-          {Object.values(fileList).map((file, index) => {
-            return (
-              <UploadFile
-                key={index}
-                file={file}
-                SubmitHandler={SubmitHandler}
-                checkSubmit={checkSubmit}
-                setCheckSubmit={setCheckSubmit}
-                isChecked={file.isChecked}
-                fileList={fileList}
-                id={file.id}
-                setFileList={setFileList}
-                handleChecked={handleChecked}
-              ></UploadFile>
-            );
-          })}
+          {selectedFile?.map((file, index) => (
+            <UploadFile
+              index={index}
+              currentColor={currentColor}
+              setCurrentColor={setCurrentColor}
+              selectedFile={file}
+              setSubmit={setSubmit}
+              submit={submit}
+              handleCheckValue={handleCheckValue}
+            />
+          ))}
           <ApplyTemplateBtn color="#666">
             <form method="post" encType="multipart/form-data">
               <label for="ex_file">파일 업로드</label>
-              <input type="file" id="ex_file" />
+              <input type="file" id="ex_file" onChange={onFileChange} />
             </form>
           </ApplyTemplateBtn>
           <ApplyTemplateBtn color="#666">새 이력서 작성</ApplyTemplateBtn>
@@ -96,15 +131,15 @@ function SubmitTemaplete({
         </SubmitConstents>
         <SubmitFooter>
           <ApplyTemplateBtn
-            color={handleBgColor() ? "white" : "#ccc"}
-            backgroundColor={handleBgColor() ? "#3366FF" : "#f2f4f7"}
-            onClick={() => nameValidHandler}
+            color={submit ? 'white' : '#ccc'}
+            backgroundColor={submit ? '#3366FF' : '#f2f4f7'}
+            onClick={HandleOnsubmit}
           >
             제출하기
           </ApplyTemplateBtn>
         </SubmitFooter>
       </SubmitTemapleteBlock>
-      {hideContent ? <HideContent hideContent={hideContent} /> : ""}
+      {hideContent ? <HideContent hideContent={hideContent} /> : ''}
     </>
   );
 }
@@ -122,10 +157,11 @@ const SubmitTemapleteBlock = styled.div`
   position: sticky;
   right: 0;
   top: 20px;
-  display: ${({ goToApply }) => (goToApply ? "block" : "none")};
+  margin-top: 20px;
+  display: ${({ goToApply }) => (goToApply ? 'block' : 'none')};
 
   @media (max-width: 992px) {
-    display: ${(props) => (props.hideContent ? "flex" : "")};
+    display: ${(props) => (props.hideContent ? 'flex' : '')};
     position: fixed;
     width: 500px;
     height: 700px;
@@ -133,6 +169,7 @@ const SubmitTemapleteBlock = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 111;
   }
 `;
 
@@ -190,7 +227,9 @@ const SubmitInputForm = styled.div`
   align-items: center;
   width: 100%;
   height: 50px;
-  border-bottom: 1px solid #e1e2e3;
+  /* border-bottom: 1px solid #e1e2e3; */
+  border-bottom: ${({ nameValid }) =>
+    nameValid ? '1px solid #e1e2e3;' : '1px solid red'};
   margin-bottom: 5px;
   font-size: 16px;
   h2 {
@@ -206,8 +245,12 @@ const SubmitInputForm = styled.div`
     border: none;
     font-size: 15px;
     font-weight: 600;
+    /* border-bottom: 1px solid #e1e2e3; */
     border-bottom: 1px solid #e1e2e3;
     outline: none;
+    &.red {
+      border-bottom: 1px solid red;
+    }
   }
 `;
 
@@ -227,6 +270,6 @@ const HideContent = styled.div`
   display: none;
 
   @media (max-width: 992px) {
-    display: ${(props) => (props.hideContent ? "block" : "none")};
+    display: ${(props) => (props.hideContent ? 'block' : 'none')};
   }
 `;

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const DetailTemplateBlock = styled.div`
-  padding: 20px 0 80px;
+  padding-top: 20px;
   margin-right: 20px;
 `;
 
