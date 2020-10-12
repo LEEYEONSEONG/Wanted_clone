@@ -4,6 +4,7 @@ import FilterContainer from './Components/FilterContainer';
 import BookMark from './Components/BookMark';
 import ActiveRecruitment from './Components/ActiveRecruitment';
 import styled from 'styled-components';
+import Footer from '../../Components/Footer/Footer';
 
 function CompanyLists() {
   return (
@@ -14,6 +15,7 @@ function CompanyLists() {
         <BookMark />
         <ActiveRecruitment />
       </Container>
+      <Footer />
     </>
   );
 }
