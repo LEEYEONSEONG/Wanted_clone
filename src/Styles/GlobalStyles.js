@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import { reset } from "styled-reset";
+import { createGlobalStyle } from 'styled-components';
+import { reset } from 'styled-reset';
 export const GlobalStyles = createGlobalStyle`
   ${reset}
   * {
@@ -38,6 +38,6 @@ export const GlobalStyles = createGlobalStyle`
 `;
 
 export const theme = {
-  primaryColor: "#268bf6",
-  borderColor: "#e5e5e5",
+  primaryColor: '#268bf6',
+  borderColor: '#e5e5e5',
 };
