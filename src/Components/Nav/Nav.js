@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,13 @@ import { NAVIGATION_MENU_Tab } from './Data/NAVIGATION_MENU_TAB';
 import { NAVIGATION_ASIDE } from './Data/NAVIGATION_ASIDE';
 import { EXPLORE_CONTENT } from './Data/EXPLORE_CONTENT';
 import { SignUpAddress } from '../../config';
-import { UserLogin, UserLogOut } from '../../Store/Actions';
+import {
+  UserLogin,
+  UserLogOut,
+  NeedLogin,
+  ExitLogin,
+  ResumeState,
+} from '../../Store/Actions';
 
 function Nav() {
   const [displayExplore, setDisplayExplore] = useState(false);
@@ -43,6 +49,7 @@ function Nav() {
   const [email, setEmail] = useState('');
   const [kakaoData, setKakaoData] = useState('');
   const [clickUserButton, setClickUserButton] = useState(false);
+  const [windowPath, setWindowPath] = useState(null);
 
   const history = useHistory();
   const SignUpValidationButton = useRef(null);
@@ -50,6 +57,7 @@ function Nav() {
   const [userLogged, setUserLogged] = useState(false);
   const dispatch = useDispatch();
   const isUserLogin = useSelector((store) => store.userLoggedReducer);
+  const UserclickedButton = useSelector((store) => store.clickedButton);
 
   const handleExplore = (idx) => {
     idx === 0 ? setDisplayExplore(true) : setDisplayExplore(false);
@@ -66,13 +74,13 @@ function Nav() {
     setEmail(value);
   };
 
-  const checkEmail = () => {
+  const checkEmail = async () => {
     const emailRegExp = /^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$/;
     if (email.match(emailRegExp) === null) {
       return setEmailValidation(false);
     }
 
-    fetch(`${SignUpAddress}`, {
+    await fetch(`${SignUpAddress}`, {
       method: 'POST',
       body: JSON.stringify({
         email,
@@ -82,10 +90,12 @@ function Nav() {
       .then((result) => {
         if (result.message === 'ALEADY_EXISTS') {
           setFloatSignUp(false);
+          dispatch(ExitLogin());
           setFloatSecondSingUp(false);
           setFloatSignInModal(true);
         } else if (result.message === 'NEED_SIGNUP') {
           setFloatSignUp(false);
+          dispatch(ExitLogin());
           setFloatSecondSingUp(true);
           setFloatSignInModal(false);
         }
@@ -155,8 +165,8 @@ function Nav() {
     }
     setSingnUpValidation(pwdCheckValid);
 
-    SignUpValidationButton.current.addEventListener('click', () => {
-      fetch(`${SignUpAddress}/signup`, {
+    SignUpValidationButton.current.addEventListener('click', async () => {
+      await fetch(`${SignUpAddress}/signup`, {
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -184,8 +194,8 @@ function Nav() {
     setInvalidPassword(null);
   };
 
-  const checkLogin = () => {
-    fetch(`${SignUpAddress}/signin`, {
+  const checkLogin = async () => {
+    await fetch(`${SignUpAddress}/signin`, {
       method: 'POST',
       body: JSON.stringify({
         email,
@@ -198,7 +208,6 @@ function Nav() {
           localStorage.setItem('userToken', result.ACCESS_TOKEN);
           setFloatSignInModal(false);
           dispatch(UserLogin());
-          history.push('/');
         } else if (result.message === 'INVALID_PASSWORD') {
           setInvalidPassword(false);
         }
@@ -218,6 +227,7 @@ function Nav() {
           if (result.token) {
             localStorage.setItem('kakaoToken', result.token);
             setFloatSignUp(false);
+            dispatch(ExitLogin());
             dispatch(UserLogin());
           }
         });
@@ -231,7 +241,12 @@ function Nav() {
   const logOut = (e) => {
     localStorage.clear();
     dispatch(UserLogOut());
+    dispatch(ResumeState('intro'));
   };
+
+  useEffect(() => {
+    localStorage.getItem('userToken') && dispatch(dispatch(UserLogin()));
+  }, []);
 
   return (
     <>
@@ -247,13 +262,22 @@ function Nav() {
               history.push('/');
             }}
           />
-          <NavigationMenuTab>
+          <NavigationMenuTab
+            onClick={() => {
+              setWindowPath(window.location.pathname);
+            }}
+          >
             {NAVIGATION_MENU_Tab?.map(({ id, link, url, name }, idx) => (
               <Link
                 key={id}
                 to={link}
                 onMouseOver={() => {
                   handleExplore(idx);
+                }}
+                onClick={() => {
+                  isUserLogin
+                    ? dispatch(ResumeState('management'))
+                    : dispatch(ResumeState('intro'));
                 }}
                 style={{
                   borderBottom: `${
@@ -279,7 +303,7 @@ function Nav() {
                     <i
                       className="fas fa-user"
                       onClick={() => {
-                        setClickUserButton(!clickUserButton);
+                        isUserLogin && setClickUserButton(!clickUserButton);
                       }}
                     />
                     <UserSelectBox

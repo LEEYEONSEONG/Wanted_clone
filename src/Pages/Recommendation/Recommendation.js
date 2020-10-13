@@ -46,7 +46,7 @@ const Recommendation = () => {
             </SettingNavItem>
           </Tabs>
           <WantedRecommend>
-            원티드 추천 소개<i className='fas fa-info-circle'></i>
+            원티드 추천 소개<i className="fas fa-info-circle"></i>
           </WantedRecommend>
         </NavBar>
         <div>{content[currentIndex]}</div>

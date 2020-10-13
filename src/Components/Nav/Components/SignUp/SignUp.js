@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { InformationLabel } from "../EmailCheck/EmailCheck";
+import React from 'react';
+import styled from 'styled-components';
+import { InformationLabel } from '../EmailCheck/EmailCheck';
 
 export default function SignUp({
   floatSecondSingUp,
@@ -38,8 +38,8 @@ export default function SignUp({
             type="text"
             placeholder="이름을 입력해 주세요."
             name="name"
-            valid={idValidation}
             onChange={uploadUserInfo}
+            valid={idValidation}
           />
           {idValidation === false && (
             <ErrorText>이름은 필수정보 입니다.</ErrorText>
@@ -122,8 +122,8 @@ export default function SignUp({
 
 const SignUpModal = styled.div`
   width: 400px;
-  height: ${(props) => (props.floatSecondSingUp ? "604px" : "0px")};
-  position: absolute;
+  height: ${(props) => (props.floatSecondSingUp ? '604px' : '0px')};
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -189,13 +189,13 @@ const UserInput = styled.input`
   padding-right: 15px;
   padding-left: 15px;
   border-radius: 5px;
-  border: 1px solid ${(props) => (props.valid === false ? "red" : "#e1e2e3")};
+  border: 1px solid ${(props) => (props.valid === false ? 'red' : '#e1e2e3')};
   background-color: #fff;
   font-size: 15px;
   color: #333;
 
   :focus {
-    border: 1px solid ${(props) => (props.valid === false ? "red" : "#e1e2e3")};
+    border: 1px solid ${(props) => (props.valid === false ? 'red' : '#e1e2e3')};
   }
 `;
 
@@ -206,13 +206,13 @@ const UserCheckContainer = styled.div`
 `;
 
 const CheckBox = styled.input.attrs((props) => ({
-  type: "checkBox",
+  type: 'checkBox',
 }))`
   margin-right: 10px;
 `;
 
 const StartingSignUpBox = styled.button.attrs((props) => ({
-  type: "submit",
+  type: 'submit',
 }))`
   width: 100%;
   height: 54px;
@@ -220,18 +220,18 @@ const StartingSignUpBox = styled.button.attrs((props) => ({
   border: 0;
   border-radius: 27px;
   background-color: ${(props) =>
-    props.agreedChecked.essentialChecked ? "#36f" : "#f2f4f7"};
+    props.agreedChecked.essentialChecked ? '#36f' : '#f2f4f7'};
   color: ${(props) =>
-    props.agreedChecked.essentialChecked ? "#fff" : " #cacaca"};
+    props.agreedChecked.essentialChecked ? '#fff' : ' #cacaca'};
   font-size: 16px;
   font-weight: bold;
   cursor: ${(props) =>
-    props.agreedChecked.essentialChecked ? "pointer" : "not-allowed"};
+    props.agreedChecked.essentialChecked ? 'pointer' : 'not-allowed'};
 `;
 
 const SecondTranparentBackground = styled.div`
   width: 100%;
-  height: ${({ floatSecondSingUp }) => (floatSecondSingUp ? "100%" : "0")};
+  height: ${({ floatSecondSingUp }) => (floatSecondSingUp ? '100%' : '0')};
   position: fixed;
   top: 0;
   left: 0;
@@ -253,7 +253,7 @@ const ErrorText = styled.div`
 `;
 
 const UserCheckContainerBorder = styled(
-  UserCheckContainer.withComponent("div")
+  UserCheckContainer.withComponent('div')
 )`
   height: auto;
   padding-bottom: 15px;

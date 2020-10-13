@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import KaKaoLogin from "react-kakao-login";
+import React from 'react';
+import styled from 'styled-components';
+import KaKaoLogin from 'react-kakao-login';
+import { useSelector, useDispatch } from 'react-redux';
+import { NeedLogin, ExitLogin } from '../../../../Store/Actions/index';
 
 export default function EmailCheck({
   floatSignUp,
@@ -12,9 +14,13 @@ export default function EmailCheck({
   responseFail,
   responseKakao,
 }) {
+  const needLogin = useSelector((store) => store.needLoginReducer);
+
+  const dispatch = useDispatch();
+
   return (
     <>
-      <SignUpModal floatSignUp={floatSignUp}>
+      <SignUpModal floatSignUp={floatSignUp} needLogin={needLogin}>
         <SignUpHeader>
           <img src="/Images/Nav/cuted_text.png" alt="cutedLogo" />
           <ExitButton>
@@ -22,6 +28,7 @@ export default function EmailCheck({
               className="fas fa-times"
               onClick={() => {
                 setFloatSignUp(false);
+                dispatch(ExitLogin());
               }}
             />
           </ExitButton>
@@ -61,7 +68,7 @@ export default function EmailCheck({
             </StartButton>
             <Or>or</Or>
             <KaKaoBtn
-              jsKey={"6e900d75159996680a12acc974680b85"}
+              jsKey={'6e900d75159996680a12acc974680b85'}
               buttonText="Kakao"
               onSuccess={responseKakao}
               onFailure={responseFail}
@@ -79,8 +86,10 @@ export default function EmailCheck({
       </SignUpModal>
       <TranparentBackground
         floatSignUp={floatSignUp}
+        needLogin={needLogin}
         onClick={() => {
           setFloatSignUp(false);
+          dispatch(ExitLogin());
         }}
       />
     </>
@@ -89,8 +98,9 @@ export default function EmailCheck({
 
 const SignUpModal = styled.div`
   width: 400px;
-  height: ${({ floatSignUp }) => (floatSignUp ? "604px" : "0")};
-  position: absolute;
+  height: ${({ floatSignUp, needLogin }) =>
+    floatSignUp || needLogin ? '604px' : '0'};
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -117,7 +127,7 @@ const SignUpHeader = styled.header`
     position: relative;
     left: 20px;
     width: 70px;
-    heigth: 24px;
+    height: 24px;
   }
 `;
 
@@ -174,14 +184,14 @@ const InformationInput = styled.input`
   padding-left: 15px;
   border-radius: 5px;
   border: 1px solid
-    ${({ emailValidation }) => (emailValidation ? "#e1e2e3" : "red")};
+    ${({ emailValidation }) => (emailValidation ? '#e1e2e3' : 'red')};
   background-color: #fff;
   font-size: 15px;
   color: #333;
 
   :focus {
     border: 1px solid
-      ${({ emailValidation }) => (emailValidation ? "#36f" : "red")};
+      ${({ emailValidation }) => (emailValidation ? '#36f' : 'red')};
   }
 `;
 
@@ -247,31 +257,6 @@ const KaKaoBtn = styled(KaKaoLogin)`
   }
 `;
 
-const KakaoButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 54px;
-  margin-top: 15px;
-  border: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #737373;
-  background-color: #fff;
-  border-radius: 27px;
-  border: 1px solid #e1e2e3;
-  cursor: pointer;
-
-  img {
-    width: 40px;
-  }
-
-  :hover {
-    background-color: yellow;
-  }
-`;
-
 const PreventUserInfomation = styled.div`
   margin-top: 26px;
   text-align: center;
@@ -288,7 +273,8 @@ const PreventUserInfomation = styled.div`
 
 const TranparentBackground = styled.div`
   width: 100%;
-  height: ${({ floatSignUp }) => (floatSignUp ? "100%" : "0")};
+  height: ${({ floatSignUp, needLogin }) =>
+    floatSignUp || needLogin ? '100%' : '0'};
   position: fixed;
   top: 0;
   left: 0;

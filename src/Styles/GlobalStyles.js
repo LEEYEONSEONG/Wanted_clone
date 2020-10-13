@@ -44,4 +44,5 @@ export const theme = {
   navMiniChangePoint: '675px',
   searchRecommendChangePoint: '770px',
   searchRecruitChangePoint: '1000px',
+  navigationAdjustMarginTop: '50px',
 };

@@ -1,116 +1,241 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import styled from 'styled-components';
+import ResumeManagement from './Components/ResumeManagement';
+import WritingResume from './Components/WritingResume';
+import ResumeIntro from './Components/ResumeIntro';
+import { ResumeAddress, ResumeDeleteAddress, API } from '../../config';
+import {
+  OpenResumeWriting,
+  CloseResumeManagement,
+  ExitLogin,
+  OpenResumeManagement,
+  CloseResumeWriting,
+  NeedLogin,
+  ManagingClickButton,
+  WritingtButtonClick,
+  ResumeState,
+} from '../../Store/Actions/index';
 
 function Resume() {
+  const [displayResumeManagement, setDisplayResumeManagement] = useState(false);
+  const [displayWritingResume, setDisplayWritingResume] = useState(false);
+  const isUserLogin = useSelector((store) => store.userLoggedReducer);
+
+  const [resumeListData, setResumeListData] = useState([]);
+  const [writingInput, setWritingInput] = useState({
+    title: '',
+    author: '',
+    email: '',
+    phone_number: '',
+    textarea: '',
+  });
+  const [isEssentialInformation, setIsEssentialInformation] = useState(false);
+  const [writingData, setWritingData] = useState([]);
+
+  const [newWritingData, setNewWritingData] = useState([]);
+
+  const titleElement = useRef(null);
+  const authorElement = useRef(null);
+  const emailElement = useRef(null);
+  const phoneNumberElement = useRef(null);
+  const textareaElement = useRef(null);
+
+  const dispatch = useDispatch();
+  const writingReducer = useSelector((store) => store.displayResumeWriting);
+
+  const headerOffset = 40;
+
+  const titleTop =
+    titleElement.current?.offsetTop -
+    titleElement.current?.offsetHeight -
+    headerOffset;
+  const authorTop =
+    authorElement.current?.offsetTop -
+    authorElement.current?.offsetHeight -
+    headerOffset;
+  const emailTop =
+    emailElement.current?.offsetTop -
+    emailElement.current?.offsetHeight -
+    headerOffset;
+  const phoneNumberTop =
+    phoneNumberElement.current?.offsetTop -
+    phoneNumberElement.current?.offsetHeight -
+    headerOffset;
+  const textareaTop =
+    textareaElement.current?.offsetTop -
+    textareaElement.current?.offsetHeight -
+    headerOffset;
+
+  useEffect(() => {
+    const localToken = localStorage.getItem('userToken');
+    fetch(`${ResumeAddress}`, {
+      headers: { Authorization: localToken },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.message === 'INVALID_TOKEN') {
+          return console.warn('로그인이 필요합니다');
+        }
+        setResumeListData(result.data.my_resume);
+      });
+  }, [isUserLogin]);
+
+  const delteResumeList = (id) => {
+    const toDeleteToken = localStorage.getItem('userToken');
+    const deletedResume = resumeListData.filter((el) => {
+      return el.id !== id;
+    });
+
+    fetch(`${ResumeDeleteAddress}${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: toDeleteToken,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.message === 'SUCCESS') {
+          setResumeListData(deletedResume);
+        } else if (result.message === 'INVALID_TOKEN') {
+          return alert('권한이 없습니다.');
+        }
+      });
+  };
+
+  const handleResumeInput = (e) => {
+    const { name, value } = e.target;
+    setWritingInput({ ...writingInput, [name]: value });
+  };
+
+  const writingValidation = (e) => {
+    const { title, author, email, textarea, phone_number } = writingInput;
+    const localToken = localStorage.getItem('userToken');
+    const essentialValidation =
+      title.length &&
+      author.length &&
+      email.length &&
+      phone_number.length &&
+      textarea.length &&
+      true;
+
+    setIsEssentialInformation(!essentialValidation);
+
+    if (!title.length) {
+      return window.scrollTo({
+        top: titleTop,
+        behavior: 'smooth',
+      });
+    }
+    if (!author.length) {
+      return window.scrollTo({
+        top: authorTop,
+        behavior: 'smooth',
+      });
+    }
+    if (!email.length) {
+      return window.scrollTo({ top: emailTop, behavior: 'smooth' });
+    }
+    if (!phone_number.length) {
+      return window.scrollTo({ top: phoneNumberTop, behavior: 'smooth' });
+    }
+    if (!textarea.length) {
+      return window.scrollTo({ top: textareaTop, behavior: 'smooth' });
+    }
+    fetch(`${API}/account/resumeupdate/113`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: localToken,
+      },
+      body: JSON.stringify({
+        title: title,
+        author: author,
+        email: email,
+        phone_number: phone_number,
+        description: textarea,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        dispatch(ResumeState('management'));
+      });
+  };
+
+  const handleWriteResume = (e) => {
+    const localToken = localStorage.getItem('userToken');
+    fetch(`${API}/account/resumewrite`, {
+      headers: {
+        Authorization: localToken,
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setWritingData(result.data);
+      });
+  };
+
+  const resumestateReducer = useSelector((store) => store.resumestateReducer);
+
+  const handleNewResume = async (e) => {
+    const localToken = localStorage.getItem('userToken');
+    await fetch(`${API}/account/resumewrite`, {
+      headers: { Authorization: localToken },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setNewWritingData(result.resume);
+        dispatch(ResumeState('writing'));
+      });
+  };
+
   return (
     <>
-      <Background>
-        <Container>
-          <RecentDocBar>
-            <p>최근 문서</p>
-            <span>
-              원티드 이력서 소개<i className="fas fa-info-circle"></i>
-            </span>
-          </RecentDocBar>
-          <ContentsWrapper>
-            <NewResume>
-              <i className="far fa-copy" />
-              <div> 새 이력서 작성 </div>
-            </NewResume>
-            <UploadFiles>
-              <i className="fas fa-file-upload"></i>
-              <div>파일 업로드</div>
-            </UploadFiles>
-          </ContentsWrapper>
-        </Container>
-      </Background>
+      {resumestateReducer === 'intro' && !isUserLogin && (
+        <ResumeIntro
+          setDisplayResumeManagement={setDisplayResumeManagement}
+          displayResumeManagement={displayResumeManagement}
+          displayWritingResume={displayWritingResume}
+          setDisplayWritingResume={setDisplayWritingResume}
+        />
+      )}
+      {resumestateReducer === 'writing' && isUserLogin && (
+        <WritingResume
+          writingValidation={writingValidation}
+          isEssentialInformation={isEssentialInformation}
+          handleResumeInput={handleResumeInput}
+          titleElement={titleElement}
+          authorElement={authorElement}
+          emailElement={emailElement}
+          phoneNumberElement={phoneNumberElement}
+          textareaElement={textareaElement}
+          displayWritingResume={displayWritingResume}
+          displayResumeManagement={displayResumeManagement}
+          newWritingData={newWritingData}
+        />
+      )}
+      {resumestateReducer === 'management' && isUserLogin && (
+        <ResumeManagement
+          displayResumeManagement={displayResumeManagement}
+          displayWritingResume={displayWritingResume}
+          resumeListData={resumeListData}
+          delteResumeList={delteResumeList}
+          handleWriteResume={handleWriteResume}
+          handleNewResume={handleNewResume}
+        />
+      )}
     </>
   );
 }
 
 export default Resume;
 
-const Background = styled.body`
+export const Background = styled.div`
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #f8f8fa;
-  background-size: cover;
-  height: 100vh;
-`;
-
-const Container = styled.div`
-  position: relative;
-  margin: 0 auto;
-  max-width: 1060px;
-  @media (min-width: 1200px) {
-    width: 87.72%;
-  }
-`;
-
-const RecentDocBar = styled.div`
-  display: flex;
-  width: 1060px;
-  justify-content: space-between;
-  margin-bottom: 5px;
-  padding: 15px 0px;
-  p {
-    font-size: 16px;
-    font-weight: 600;
-    color: #333333;
-  }
-  span {
-    line-height: 1.4;
-    color: #258bf7;
-    font-size: 16px;
-    font-weight: 600;
-    i {
-      margin-left: 8px;
-    }
-  }
-`;
-
-const ContentsWrapper = styled.div`
-  display: flex;
-  @media (max-width: 1199px) and (min-width: 992px) {
-    margin-left: 20px;
-    margin-bottom: 20px;
-    width: calc(25%- 25px);
-  }
-`;
-
-const NewResume = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 190px;
-  position: relative;
-  border: 1px solid #dbdbdb;
-  background-color: white;
-  cursor: pointer;
-  width: 25%;
-  padding: 6px 12px;
-  i {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 26px;
-    background-color: #258bf7;
-    border-radius: 50%;
-    width: 74px;
-    height: 74px;
-  }
-  div {
-    font-size: 16px;
-    color: #333333;
-    margin: 20px 0px 0px;
-    font-weight: bold;
-  }
-`;
-
-const UploadFiles = styled(NewResume)`
-  margin: 0 0 20px 20px;
-  i {
-    background-color: #f8f8fa;
-    color: #333333;
-  }
 `;

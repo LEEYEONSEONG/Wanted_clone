@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 export default function SignIn({
   floatSignInModal,
@@ -36,7 +36,7 @@ export default function SignIn({
             {invalidPassword === false ? (
               <InvaildPassword>올바르지 않은 비밀번호입니다.</InvaildPassword>
             ) : (
-              ""
+              ''
             )}
             <LoginButton onClick={checkLogin}>로그인</LoginButton>
           </SignInForm>
@@ -50,8 +50,8 @@ export default function SignIn({
 
 const SignInModal = styled.div`
   width: 400px;
-  height: ${({ floatSignInModal }) => (floatSignInModal ? "330px" : "0")};
-  position: absolute;
+  height: ${({ floatSignInModal }) => (floatSignInModal ? '330px' : '0')};
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -116,20 +116,20 @@ const SignInInput = styled.input`
   padding-left: 15px;
   border-radius: 5px;
   border: 1px solid
-    ${({ invalidPassword }) => (invalidPassword === false ? "red" : "#e1e2e3 ")};
+    ${({ invalidPassword }) => (invalidPassword === false ? 'red' : '#e1e2e3 ')};
   background-color: #fff;
   font-size: 15px;
   color: #333;
 
   :focus {
     border: 1px solid
-      ${({ invalidPassword }) => (invalidPassword === false ? "red " : "#36f")};
+      ${({ invalidPassword }) => (invalidPassword === false ? 'red ' : '#36f')};
   }
 `;
 
 const HideBackground = styled.div`
   width: 100%;
-  height: ${({ floatSignInModal }) => (floatSignInModal ? "100%" : "0")};
+  height: ${({ floatSignInModal }) => (floatSignInModal ? '100%' : '0')};
   position: fixed;
   top: 0;
   left: 0;
