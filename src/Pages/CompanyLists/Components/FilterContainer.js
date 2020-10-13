@@ -1,17 +1,27 @@
-import React from 'react';
-import styled from 'styled-components';
-import Tag from './Tag';
-import Area from './Area';
-import Career from './Career';
-import SortFilter from './SortFilter';
+import React from "react";
+import styled from "styled-components";
+import Tag from "./Tag";
+import Area from "./Area";
+import Career from "./Career";
+import SortFilter from "./SortFilter";
 
-function FilterContainer({handleChange}) {
-
+function FilterContainer({
+  openModal,
+  setOpenModal,
+  handleChange,
+  locationName,
+  locationTitle,
+}) {
   return (
     <Container>
       <SmallContainer>
         <Tag />
-        <Area />
+        <Area
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          locationName={locationName}
+          locationTitle={locationTitle}
+        />
         <Career />
       </SmallContainer>
       <SortFilter handleChange={handleChange} />

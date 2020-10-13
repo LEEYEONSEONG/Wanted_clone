@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-function Area() {
+function Area({ setOpenModal, locationTitle }) {
   return (
-    <Container>
+    <Container onClick={() => setOpenModal(true)}>
       <span className="area">지역</span>
-      <span className="location">한국</span>
+      <span className="location">{locationTitle}</span>
       <i className="fas fa-angle-down"></i>
       <div className="number">1</div>
     </Container>

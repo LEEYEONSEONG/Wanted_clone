@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-function SortFilter({handleChange}) {
-
+function SortFilter({ handleChange }) {
   return (
     <Container>
       <i className="fas fa-angle-down" />
       <Select onChange={handleChange}>
-        {options.map((option) => (
-          <option value={option.value}>{option.label}</option>
+        {options.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
         ))}
       </Select>
     </Container>
@@ -23,13 +24,13 @@ const options = [
     value: "date",
   },
   {
-    label: "응답순률",
+    label: "응답률순",
     value: "response",
   },
 ];
 
 const Container = styled.button`
-position: relative;
+  position: relative;
   i {
     position: absolute;
     right: 22px;
@@ -45,8 +46,7 @@ const Select = styled.select`
   border: 1px solid #ececec;
   border-radius: 5px;
   padding-left: 16px;
-  appearance: none; 
-  outline:none;
+  appearance: none;
+  outline: none;
   cursor: pointer;
 `;
-

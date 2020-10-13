@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { companyAddress } from "../../../config";
 
 const moveSlideLength = 400;
 
@@ -8,7 +9,7 @@ function MainSlide() {
   const [x_axis, setX_axis] = useState(0);
 
   useEffect(() => {
-    fetch('http://10.58.4.18:8000/recruit/')
+    fetch(`${companyAddress}`)
       .then((response) => response.json())
       .then((response) => setjobCategoryData(response.data.menu_list));
   }, []);
@@ -51,7 +52,7 @@ export default MainSlide;
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin: 0 auto;
+  margin: 2px auto 0;
   width: 100%;
   background: #ffffff;
   border-bottom: 1px solid #e1e2e3;
@@ -91,10 +92,10 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const PreButton = styled(Button.withComponent('button'))`
+const PreButton = styled(Button.withComponent("button"))`
   left: 10px;
   visibility: ${({ preVisibleNum, preButton }) =>
-    preVisibleNum === 0 ? (preButton = 'hidden') : ''};
+    preVisibleNum === 0 ? (preButton = "hidden") : ""};
   cursor: pointer;
 
   .leftArrow {
@@ -103,10 +104,10 @@ const PreButton = styled(Button.withComponent('button'))`
   }
 `;
 
-const NextButton = styled(Button.withComponent('button'))`
+const NextButton = styled(Button.withComponent("button"))`
   right: 10px;
   visibility: ${({ nextVisibleNum, nextButton }) =>
-    nextVisibleNum === -(moveSlideLength * 3) ? (nextButton = 'hidden') : ''};
+    nextVisibleNum === -(moveSlideLength * 3) ? (nextButton = "hidden") : ""};
 
   .rightArrow {
     font-size: 50px;
@@ -144,10 +145,14 @@ const OpacityBox = styled.div`
   );
 `;
 
-const CategoryText = styled.span`
+const CategoryText = styled.div`
   position: absolute;
-  top: 32px;
-  left: 28px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  margin-top: 35px;
   color: white;
+  text-align: center;
+  font-size: 14px;
   font-weight: bolder;
 `;

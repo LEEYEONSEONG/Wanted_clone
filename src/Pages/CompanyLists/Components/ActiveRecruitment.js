@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 function ActiveRecruitment() {
   const [companyData, setCompanyData] = useState([]);
@@ -7,13 +7,13 @@ function ActiveRecruitment() {
 
   useEffect(() => {
     fetch(
-      'http://localhost:3000/data/CompanyLists/ActiveRecruitmentCompanyData.json'
+      "http://localhost:3000/data/CompanyLists/ActiveRecruitmentCompanyData.json"
     )
       .then((response) => response.json())
       .then((companyData) =>
         setCompanyData(companyData.ActiveRecruitmentCompanyData)
       );
-  });
+  }, []);
 
   return (
     <Container>
@@ -23,7 +23,7 @@ function ActiveRecruitment() {
           <CompanyItem
             key={el.id}
             onMouseEnter={() => setCurrent(el.id)}
-            onMouseLeave={() => setCurrent('-1')}
+            onMouseLeave={() => setCurrent("-1")}
           >
             <ImgBox>
               <Img
@@ -87,8 +87,8 @@ const ImgBox = styled.div`
   overflow: hidden;
 `;
 
-const Img = styled(ImgBox.withComponent('img'))`
-  transition: ${({ current, index }) => (current === index ? '1s' : '1s')};
+const Img = styled(ImgBox.withComponent("img"))`
+  transition: ${({ current, index }) => (current === index ? "1s" : "1s")};
   transform: scale(${({ current, index }) => (current === index ? 1.1 : 1)});
 `;
 
@@ -107,7 +107,7 @@ const CompanyName = styled.div`
   text-align: center;
   font-size: 16px;
   font-weight: bolder;
-  color: ${({ current, index }) => (current === index ? '#3366FF' : 'black')};
+  color: ${({ current, index }) => (current === index ? "#3366FF" : "black")};
 `;
 
 const Position = styled.div`

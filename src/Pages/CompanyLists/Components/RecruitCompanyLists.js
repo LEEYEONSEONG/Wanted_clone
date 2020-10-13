@@ -1,45 +1,59 @@
-import React, { useState, useEffect} from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { companyAddress } from "../../../config";
+import { useHistory } from "react-router-dom";
 
-function RecruitCompanyLists({handleChange, filterValue}) {
-  // const [filterValue , setFilterValue] = useState("date");
-  const [recruitCompanydata, setRecruitCompanydata] = useState([]);  
-  // console.log("메인화면"+filterValue);
-    // useEffect(() => {
-    //   fetch('http://localhost:3000/data/CompanyLists/recruitCompanyData.json')
-    //     .then((response) => response.json())
-    //     .then((recruitCompanydata) =>
-    //       setRecruitCompanydata(recruitCompanydata.recruitCompanyData)
-    //     );
-    // });
-    // useEffect(() => {
-    //   console.log("recruitCompanydata : "+filterValue)}, [filterValue]);
-   
+function RecruitCompanyLists({ filterValue, locationFilterAddress }) {
+  const [changeValue, setChangeValue] = useState(false);
+  const [recruitCompanydata, setRecruitCompanydata] = useState([]);
+  const [items, setItems] = useState(8);
+  const [preItems, setPreItems] = useState(0);
 
-  // 백엔드 통신
-    useEffect(() => {
-      fetch(`http://10.58.4.18:8000/recruit/?order=${filterValue}`)
-        .then((response) => response.json())
-        .then((response) => setRecruitCompanydata(response.data.recruit_list))},[filterValue]);
+  useEffect(() => {
+    fetch(locationFilterAddress)
+      .then((response) => response.json())
+      .then((response) => setRecruitCompanydata(response.data.recruit_list));
+  }, [locationFilterAddress]);
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/data/CompanyLists/recruitCompanyData.json')
-  //     .then((response) => response.json())
-  //     .then((recruitCompanydata) =>
-  //       setRecruitCompanydata(recruitCompanydata.recruitCompanyData)
-  //     );
-  // });
+  const history = useHistory();
+
+  useEffect(() => {
+    fetch(`${companyAddress}`)
+      .then((response) => response.json())
+      .then((response) => setRecruitCompanydata(response.data.recruit_list));
+  }, []);
+
+  const sortFliter = () => {
+    if (filterValue === "response") {
+      setRecruitCompanydata(
+        recruitCompanydata.sort(function (a, b) {
+          return b.response_rate - a.response_rate;
+        })
+      );
+      setChangeValue(true);
+    } else {
+      setRecruitCompanydata(
+        recruitCompanydata.sort(function (a, b) {
+          return a.id - b.id;
+        })
+      );
+      setChangeValue(false);
+    }
+  };
+
+  useEffect(() => {
+    sortFliter();
+  }, [filterValue]);
 
   return (
     <Container>
       {recruitCompanydata.map((el) => (
-        <CompanyListItem key={el.id}>
+        <CompanyListItem
+          key={el.id}
+          onClick={() => history.push(`/Detail/${el.id}`)}
+        >
           <ImgContainer>
             <Img src={el.thumbnail_url} alt="회사 이미지" />
-            {/* <Like onClick={() => setLikeIconColr('red')} />
-          <LikeIcon LikeIconColor={LikeIconColor}>
-            <i className="fas fa-heart" />
-          </LikeIcon> */}
           </ImgContainer>
           <ContentBox>
             <Title>{el.title}</Title>
@@ -91,27 +105,6 @@ const Img = styled.img`
   border: 1px solid #5f5f5f;
 `;
 
-// const Like = styled.button`
-//   position: absolute;
-//   top: 10px;
-//   right: 10px;
-//   width: 60px;
-//   height: 30px;
-//   border-radius: 5px;
-//   background-color: black;
-//   opacity: 0.5;
-//   cursor: pointer;
-// `;
-
-// const LikeIcon = styled.span`
-//   position: absolute;
-//   top: 18px;
-//   right: 33px;
-//   color: ${({ LikeIconColor }) => LikeIconColor};
-//   opacity: 0.8;
-//   font-size: 13px;
-// `;
-
 const ContentBox = styled.div`
   width: 250px;
   height: 148px;
@@ -122,6 +115,7 @@ const Title = styled.div`
   width: 230px;
   height: auto;
   color: #333333;
+  line-height: 1.3;
   font-size: 18px;
   font-weight: bolder;
 `;
@@ -146,7 +140,7 @@ const ResponseRate = styled.div`
   font-weight: bolder;
   border: 1px solid #00aead;
   border-radius: 2px;
-  display: ${({ percent }) => (percent >= 95 ? 'none' : 'hidden')};
+  display: ${({ percent }) => (percent >= 95 ? "block" : "none")};
 `;
 
 const Location = styled.div`
@@ -161,9 +155,9 @@ const City = styled.span`
   font-size: 12px;
 `;
 
-const Area = styled(City.withComponent('span'))`
+const Area = styled(City.withComponent("span"))`
   :before {
-    content: '・';
+    content: "・";
   }
 `;
 
