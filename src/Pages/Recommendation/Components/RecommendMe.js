@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function RecommendMe() {
   return (
     <TitleWrapper>
       <Title>
-        <i class="fas fa-user-plus" />
+        <i class='fas fa-user-plus' />
         <span>추천 요청</span>
       </Title>
     </TitleWrapper>
@@ -15,10 +15,9 @@ function RecommendMe() {
 export default RecommendMe;
 
 const TitleWrapper = styled.div`
+  height: 100vh;
   margin-top: 20px;
   @media (max-width: 1199px) and (min-width: 992px) {
-    /* margin-left: -20px;
-    margin-right: -20px; */
     width: calc(100%);
   }
 `;

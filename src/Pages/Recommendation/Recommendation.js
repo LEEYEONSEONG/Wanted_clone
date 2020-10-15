@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Recommend from "./Components/Recommend";
-import RecommendMe from "./Components/RecommendMe";
-import RecommendYou from "./Components/RecommendYou";
-import Settings from "./Components/Settings";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Recommend from './Components/Recommend';
+import RecommendMe from './Components/RecommendMe';
+import RecommendYou from './Components/RecommendYou';
+import Settings from './Components/Settings';
 
 const content = {
   0: <Recommend />,
@@ -46,7 +46,7 @@ const Recommendation = () => {
             </SettingNavItem>
           </Tabs>
           <WantedRecommend>
-            원티드 추천 소개<i className="fas fa-info-circle"></i>
+            원티드 추천 소개<i className='fas fa-info-circle'></i>
           </WantedRecommend>
         </NavBar>
         <div>{content[currentIndex]}</div>
@@ -60,7 +60,8 @@ export default Recommendation;
 const Container = styled.body`
   background-color: #f8f8fa;
   background-size: cover;
-  height: 100vh;
+  height: 100%;
+  margin-top: 40px;
 `;
 
 const AllContents = styled.div`
@@ -93,26 +94,26 @@ const FirstNavItem = styled.button`
   margin-right: 40px;
   font-size: 18px;
   cursor: pointer;
-  color: ${(props) => (props.color ? "#176fd8" : "#999999")};
+  color: ${(props) => (props.color ? '#176fd8' : '#999999')};
 `;
 
 const SecondNavItem = styled.button`
   margin-right: 40px;
   font-size: 18px;
   cursor: pointer;
-  color: ${(props) => (props.color ? "#176fd8" : "#999999")};
+  color: ${(props) => (props.color ? '#176fd8' : '#999999')};
 `;
 
 const ThirdNavItem = styled.button`
   margin-right: 40px;
   font-size: 18px;
   cursor: pointer;
-  color: ${(props) => (props.color ? "#176fd8" : "#999999")};
+  color: ${(props) => (props.color ? '#176fd8' : '#999999')};
 `;
 
 const SettingNavItem = styled.button`
   margin-right: 40px;
   font-size: 18px;
   cursor: pointer;
-  color: ${(props) => (props.color ? "#176fd8" : "#999999")};
+  color: ${(props) => (props.color ? '#176fd8' : '#999999')};
 `;

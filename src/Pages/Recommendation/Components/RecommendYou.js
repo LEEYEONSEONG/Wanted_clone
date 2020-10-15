@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 function RecommendYou() {
   return (
@@ -12,6 +12,7 @@ function RecommendYou() {
 export default RecommendYou;
 
 const Title = styled.div`
+  height: 100vh;
   margin-top: 120px;
   display: flex;
   justify-content: center;

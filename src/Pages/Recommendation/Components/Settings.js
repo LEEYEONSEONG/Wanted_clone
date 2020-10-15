@@ -12,6 +12,7 @@ function Settings() {
 export default Settings;
 
 const Title = styled.div`
+  height: 100vh;
   margin-top: 120px;
   display: flex;
   justify-content: center;
