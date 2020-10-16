@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import DataChart from './Components/DataChart';
 import SelecterTab from './Components/SelecterTab';
 import MapCompany from './Components/MapCompany';
+import { API } from '../../config';
 
 function Salary() {
   const [currentJob, setCurrentJob] = useState('');
@@ -49,7 +50,7 @@ function Salary() {
   );
 
   const calculateSalary = (salaryValue) => {
-    fetch('http://10.58.3.132:8000/recruit/salary')
+    fetch(`${API}/recruit/salary`)
       .then((res) => res.json())
       .then((res) => {
         const xValue =
@@ -77,7 +78,7 @@ function Salary() {
   };
 
   const averageSalary = () => {
-    fetch('http://localhost:3000/Data/Salary/CurrentLabel.json')
+    fetch(`http://localhost:3000/Data/Salary/CurrentLabel.json`)
       .then((res) => res.json())
       .then((res) => {
         setCurrentLabel(
@@ -87,7 +88,7 @@ function Salary() {
   };
 
   const chartNew = () => {
-    fetch('http://10.58.3.132:8000/recruit/salary')
+    fetch(`${API}/recruit/salary`)
       .then((res) => res.json())
       .then((res) => {
         setCurrentMoney(

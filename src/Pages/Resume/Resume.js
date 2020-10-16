@@ -143,7 +143,7 @@ function Resume() {
     if (!textarea.length) {
       return window.scrollTo({ top: textareaTop, behavior: 'smooth' });
     }
-    fetch(`${API}/account/resumeupdate/113`, {
+    fetch(`${API}/account/resumeupdate/118`, {
       method: 'PATCH',
       headers: {
         Authorization: localToken,

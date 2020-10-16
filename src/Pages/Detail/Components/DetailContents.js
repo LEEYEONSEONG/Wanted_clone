@@ -13,7 +13,7 @@ function DetailContents({ google, detailList, setFollowToggle, followToggle }) {
             <SubText>
               <InnerTextList>{detailList.company_name}</InnerTextList>
               <ResBox>응답률 평균 이상</ResBox>
-              <InnerTextList color="#999999">
+              <InnerTextList color='#999999'>
                 {detailList.location} · 한국
               </InnerTextList>
             </SubText>
@@ -66,7 +66,7 @@ function DetailContents({ google, detailList, setFollowToggle, followToggle }) {
               ></span>
             </LocationText>
           </InnerLoction>
-          <div className="map">
+          <div className='map'>
             <Map
               containerStyle={mapStyle}
               google={google}
@@ -88,7 +88,7 @@ function DetailContents({ google, detailList, setFollowToggle, followToggle }) {
           </div>
           <FollowContainer>
             <FollowContents>
-              <FollowImg src="/Images/Detail/FollowImg.jpg" />
+              <FollowImg src='/Images/Detail/FollowImg.jpg' />
               <div>
                 <p>큐티테인먼트</p>
                 <GrayText>IT, 컨텐츠</GrayText>

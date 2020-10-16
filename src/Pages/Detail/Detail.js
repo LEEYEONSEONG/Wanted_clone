@@ -7,6 +7,7 @@ import SubmitTemaplete from './Components/SubmitTemaplete';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MapCompany from './Components/MapCompany';
+import { API } from '../../config';
 
 function Detail() {
   const [recruitList, setRecruitList] = useState([]);
@@ -43,9 +44,12 @@ function Detail() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://10.58.3.132:8000/recruit/detail/${id}`)
+    fetch(`${API}/recruit/detail/${id}`)
       .then((response) => response.json())
-      .then((res) => setDetailList(res.detail_list));
+      .then((res) => {
+        console.log(res.detail_list);
+        setDetailList(res.detail_list);
+      });
   }, [id]);
 
   const handleValue = (e) => {
@@ -58,14 +62,13 @@ function Detail() {
 
   useEffect(() => {
     const testToken = localStorage.getItem('userToken');
-    fetch('http://10.58.2.230:8000/account/like', {
+    fetch(`${API}/account/like`, {
       headers: {
         Authorization: testToken,
       },
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res.recruit_list);
         res.recruit_list.filter((item) => {
           item.id === detailList.id && setLikeUser(!likeuser);
         });
@@ -75,7 +78,7 @@ function Detail() {
   const onLikeToggle = () => {
     const testToken = localStorage.getItem('userToken');
     setLikeUser(!likeuser);
-    fetch('http://10.58.2.230:8000/account/like', {
+    fetch(`${API}/account/like`, {
       method: 'POST',
       headers: {
         Authorization: testToken,
@@ -132,10 +135,10 @@ function Detail() {
           <ShareFooter shareToggle={shareToggle}>
             <span>링크 공유</span>
             <div>
-              <input value="http://cuted.co/MoBK5k" />
+              <input value='http://cuted.co/MoBK5k' />
               <CopyToClipboard text={url}>
                 <button onClick={() => setShareToggle(!shareToggle)}>
-                  <i className="fas fa-check"></i>
+                  <i className='fas fa-check'></i>
                 </button>
               </CopyToClipboard>
             </div>

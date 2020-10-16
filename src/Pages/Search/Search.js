@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import RecruitList from './Components/RecruitList';
 import Nav from '../../Components/Nav/Nav';
+import Footer from '../../Components/Footer/Footer';
 
 function Search() {
   const UserInputValue = useSelector((store) => store.userSearchInput);
@@ -26,7 +27,7 @@ function Search() {
             {searchedData?.map((el) => (
               <CompanyCard key={el.id}>
                 <ImgWrapper>
-                  <img src={el.imgSrc} alt="CompanyImg" />
+                  <img src={el.imgSrc} alt='CompanyImg' />
                   <TitleWrapper>
                     <CompanyName>{el.name}</CompanyName>
                     <CompanyCategory>{el.category}</CompanyCategory>
@@ -38,6 +39,7 @@ function Search() {
           </CompanyCardContainer>
         </SearchedCompanyContent>
       </SearchedCompanyInformation>
+      <Footer />
     </>
   );
 }

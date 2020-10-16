@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { API } from '../../../config';
 
 function MapCompany() {
   const [data, setData] = useState([]);
@@ -13,7 +14,7 @@ function MapCompany() {
   }, [items]);
 
   const getData = async () => {
-    const res = await fetch('http://10.58.3.132:8000/recruit/salary');
+    const res = await fetch(`${API}/recruit/salary`);
     const result = await res.json();
     const result2 = result.recruit_list.slice(preItems, items);
     setData([...data, ...result2]);
@@ -40,7 +41,7 @@ function MapCompany() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      fetch('http://10.58.3.132:8000/recruit/salary')
+      fetch(`${API}/recruit/salary`)
         .then((response) => response.json())
         .then((res) => {
           setSelected(res.recruit_list);

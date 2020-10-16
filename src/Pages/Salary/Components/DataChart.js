@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import styled from 'styled-components';
+import { API } from '../../../config';
 
 function DataChart({ currentJob, currentColor }) {
   const [chart, setChart] = useState([]);
@@ -14,7 +15,7 @@ function DataChart({ currentJob, currentColor }) {
   }, [currentColor]);
 
   const fetchChart = async () => {
-    await fetch('http://10.58.3.132:8000/recruit/salary')
+    await fetch(`${API}/recruit/salary`)
       .then((res) => res.json())
       .then((res) => {
         const data = res.series[Number(currentJob)].data;

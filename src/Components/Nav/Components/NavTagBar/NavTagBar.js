@@ -33,7 +33,7 @@ export default function NavTagBar({
       .then((res) => res.json())
       .then((result) => {
         dispatch(SearchedData());
-        dispatch(RecruitList(result.data));
+        dispatch(RecruitList(result.recruit_list));
         history.push('/search');
         setDisplayRecommend(false);
       });
@@ -51,17 +51,17 @@ export default function NavTagBar({
         <TagContent>
           <SearchBar onSubmit={(e) => submitValue(e)}>
             <SubmitButton onClick={submitValue}>
-              <i className="fas fa-search" />
+              <i className='fas fa-search' />
             </SubmitButton>
             <SearchInput
-              placeholder="#태그, 회사, 포지션 검색"
+              placeholder='#태그, 회사, 포지션 검색'
               onChange={handleSearchInput}
             />
           </SearchBar>
           <RecommendTag>
             <RecommendText>
               <div>추천태그로 검색해보세요</div>
-              <Link to="/">
+              <Link to='/'>
                 <div>기업태그 홈</div>
               </Link>
             </RecommendText>

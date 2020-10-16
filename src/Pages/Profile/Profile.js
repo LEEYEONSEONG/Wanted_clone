@@ -3,16 +3,16 @@ import styled from 'styled-components';
 import ApplySatus from './Components/ApplyStatus';
 import LikeStaus from './Components/LikeSatus';
 import BookMarkStatus from './Components/BookMarkSatus';
+import { API } from '../../config';
 
 export default function Profile() {
   const [currentPage, setCurrentPage] = useState(0);
 
   const [likeData, setLikeData] = useState([]);
-  // const [markData, setMarkData] = useState([]);
 
   useEffect(() => {
     const testToken = localStorage.getItem('userToken');
-    fetch('http://10.58.2.230:8000/account/like', {
+    fetch(`${API}/account/like`, {
       headers: {
         Authorization: testToken,
       },
@@ -20,8 +20,6 @@ export default function Profile() {
       .then((response) => response.json())
       .then((res) => setLikeData(res.recruit_list));
   }, []);
-
-  console.log(likeData);
 
   const content = {
     0: <ApplySatus />,

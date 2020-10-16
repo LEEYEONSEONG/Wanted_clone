@@ -22,7 +22,7 @@ export default function ApplyStatus() {
       <Sectioncontents>
         <NavForm>
           <SectionNav color>
-            {list.length}
+            {list && list.length}
             <SectionText>전체</SectionText>
           </SectionNav>
           <SectionNav>
@@ -32,7 +32,7 @@ export default function ApplyStatus() {
             0<SectionText>서류 통과</SectionText>
           </SectionNav>
           <SectionNav>
-            {list.length}
+            {list && list.length}
             <SectionText>접수</SectionText>
           </SectionNav>
           <SectionNav>
@@ -40,10 +40,10 @@ export default function ApplyStatus() {
           </SectionNav>
         </NavForm>
         <SectionMid>
-          <h4>총 {list.length}건</h4>
+          <h4>총 {list && list.length}건</h4>
           <div>
-            <i className="fas fa-search"></i>
-            <input type="text" placeholder="회사 / 자원자명 검색"></input>
+            <i className='fas fa-search'></i>
+            <input type='text' placeholder='회사 / 자원자명 검색'></input>
           </div>
         </SectionMid>
         <SectionForm>
@@ -53,7 +53,7 @@ export default function ApplyStatus() {
           <SectionSpan>진행상태</SectionSpan>
           <SectionSpan>추천 현황</SectionSpan>
           <SectionSpan>
-            보상금 신청<i className="fas fa-question-circle"></i>
+            보상금 신청<i className='fas fa-question-circle'></i>
           </SectionSpan>
         </SectionForm>
         {list?.map((list, inx) => {

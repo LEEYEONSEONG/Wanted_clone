@@ -1,26 +1,27 @@
-import React, { useState } from "react";
-import MainSlide from "./Components/MainSlide";
-import LocationModal from "./Components/LocationModal";
-import FilterContainer from "./Components/FilterContainer";
-import BookMark from "./Components/BookMark";
-import ActiveRecruitment from "./Components/ActiveRecruitment";
-import RecruitCompanyLists from "./Components/RecruitCompanyLists";
-import styled from "styled-components";
-import Nav from "../../Components/Nav/Nav";
-import ComapnySlide from "../CompanyLists/Components/CompanySlide";
+import React, { useState } from 'react';
+import MainSlide from './Components/MainSlide';
+import LocationModal from './Components/LocationModal';
+import FilterContainer from './Components/FilterContainer';
+import BookMark from './Components/BookMark';
+import ActiveRecruitment from './Components/ActiveRecruitment';
+import RecruitCompanyLists from './Components/RecruitCompanyLists';
+import styled from 'styled-components';
+import Nav from '../../Components/Nav/Nav';
+import ComapnySlide from '../CompanyLists/Components/CompanySlide';
+import { API } from '../../config';
 
 function CompanyLists() {
-  const [filterValue, setFilterValue] = useState("date");
+  const [filterValue, setFilterValue] = useState('date');
   const [openModal, setOpenModal] = useState(false);
   const [locationId, setLocationId] = useState(1);
   const [detailLocationId, setDetailLoactionId] = useState(0);
-  const [locationFilterAddress, setLocationFilterAddress] = useState("");
+  const [locationFilterAddress, setLocationFilterAddress] = useState('');
 
   const [tagInput, setTagInput] = useState(false);
-  const [locationName, setLocationName] = useState("전체");
-  const [detailLocationName, setDetailLocationName] = useState("");
-  const [tag, setTag] = useState("전체");
-  const [locationTitle, setLocationTitle] = useState("전체");
+  const [locationName, setLocationName] = useState('전체');
+  const [detailLocationName, setDetailLocationName] = useState('');
+  const [tag, setTag] = useState('전체');
+  const [locationTitle, setLocationTitle] = useState('전체');
 
   const handleChange = (e) => {
     setFilterValue(e.target.value);
@@ -28,10 +29,10 @@ function CompanyLists() {
 
   const changeLocationfilter = () => {
     if (locationId == 1) {
-      setLocationFilterAddress("http://10.58.3.132:8000/recruit/");
+      setLocationFilterAddress(`${API}/recruit/`);
     } else {
       setLocationFilterAddress(
-        `http://10.58.3.132:8000/recruit/?location=${
+        `${API}/recruit/?location=${
           locationId - 1
         }&detail_location=${detailLocationId}`
       );
