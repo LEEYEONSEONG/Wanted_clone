@@ -47,19 +47,19 @@
  
 * Back-end
   - 홍성은님 , 문성호님
-  1. Account
-  - SignUp, SignInView
-  - Kakao Social Login
-  - Login decorator
-  - LikeView
-  2. Resume
-  - CRUD (Create, Read, Update, Delete)
-  - File Upload View
-  3. Recruit
-  - SearchView
-  - DetailView
-  - ListView
-  - SalaryView
+    1. Account
+      - SignUp, SignInView
+      - Kakao Social Login
+      - Login decorator
+      - LikeView
+    2. Resume
+      - CRUD (Create, Read, Update, Delete)
+      - File Upload View
+    3. Recruit
+      - SearchView
+      - DetailView
+      - ListView
+      - SalaryView
 
 ## ✍️ 팀원 별 프로젝트 후기
   - Front-end
