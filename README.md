@@ -1,6 +1,9 @@
 
+
 # Wanted 공식 홈페이지 클론 프로젝트 
 -----------------------------------
+https://ibb.co/dmz1mxV
+
 ## 🖥 프로젝트 소개
 
 
@@ -47,14 +50,17 @@
  
 * Back-end
   - 홍성은님 , 문성호님
+  
     1. Account
       - SignUp, SignInView
       - Kakao Social Login
       - Login decorator
       - LikeView
+      
     2. Resume
       - CRUD (Create, Read, Update, Delete)
       - File Upload View
+      
     3. Recruit
       - SearchView
       - DetailView
