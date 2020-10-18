@@ -2,7 +2,7 @@
 
 # Wanted 공식 홈페이지 클론 프로젝트 
 -----------------------------------
-![ex_screenshot]("https://files.slack.com/files-pri/TH0U6FBTN-F01D3582X8R/banner2.png")
+<img src="https://files.slack.com/files-pri/TH0U6FBTN-F01D3582X8R/banner2.png" width="450px" height="300px" title="px(픽셀) 크기 설정" alt="RubberDuck"></img><br/>
 
 ## 🖥 프로젝트 소개
 
