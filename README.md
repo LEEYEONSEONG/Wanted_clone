@@ -2,7 +2,7 @@
 
 # Wanted 공식 홈페이지 클론 프로젝트 
 -----------------------------------
-<img src="https://files.slack.com/files-pri/TH0U6FBTN-F01D3582X8R/banner2.png">
+![ex_screenshot]("https://files.slack.com/files-pri/TH0U6FBTN-F01D3582X8R/banner2.png")
 
 ## 🖥 프로젝트 소개
 
@@ -35,7 +35,6 @@
 * Front-end
   - 박남준
     * Nav, Footer, 회원가입/로그인, 소셜로그인, 이력서
-    * To Be Updated
   - 김호균님
     * 추천페이지
     * 이력서 페이지 레이아웃
