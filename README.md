@@ -20,12 +20,12 @@
   - Styled Component
   
 * Back-end
- - Pyhon, Django
- - MySQL
- - Bcrypt, PyJWT
- - CORS headers
- - RESTful API
- - Boto3(AW-S3 Bucket 연동 라이브러리)
+  - Pyhon, Django
+  - MySQL
+  - Bcrypt, PyJWT
+  - CORS headers
+  - RESTful API
+  - Boto3(AW-S3 Bucket 연동 라이브러리)
 
 ## 🧑‍💻 팀원 별 작업 현황
 
@@ -47,17 +47,15 @@
  
 * Back-end
   - 홍성은님 , 문성호님
-  
-# function
-## 1. Account
+  1. Account
   - SignUp, SignInView
   - Kakao Social Login
   - Login decorator
   - LikeView
-## 2. Resume
+  2. Resume
   - CRUD (Create, Read, Update, Delete)
   - File Upload View
-## 3. Recruit
+  3. Recruit
   - SearchView
   - DetailView
   - ListView
