@@ -34,7 +34,7 @@
 
 * Front-end
   - 박남준
-    * Nav,Footer,회원가입/로그인, 소셜로그인, 이력서
+    * Nav, Footer, 회원가입/로그인, 소셜로그인, 이력서
     * To Be Updated
   - 김호균님
     * 추천페이지
