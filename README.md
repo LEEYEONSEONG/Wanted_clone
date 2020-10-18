@@ -2,7 +2,7 @@
 
 # Wanted 공식 홈페이지 클론 프로젝트 
 -----------------------------------
-https://ibb.co/dmz1mxV
+<img src="https://ibb.co/dmz1mxV">
 
 ## 🖥 프로젝트 소개
 
