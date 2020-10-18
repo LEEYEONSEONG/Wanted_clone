@@ -2,6 +2,7 @@
 
 # Wanted 공식 홈페이지 클론 프로젝트 
 -----------------------------------
+<img src="https://files.slack.com/files-pri/TH0U6FBTN-F01D3582X8R/banner2.png">
 
 ## 🖥 프로젝트 소개
 
