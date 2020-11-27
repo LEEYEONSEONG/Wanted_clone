@@ -5,3 +5,4 @@ export const companyAddress = ' http://10.58.6.149:8000/recruit/';
 export const ResumeAddress = ' http://10.58.6.149:8000/account/resumelist';
 export const ResumeDeleteAddress =
   ' http://10.58.6.149:8000/account/resumedelete/';
+//lys test
